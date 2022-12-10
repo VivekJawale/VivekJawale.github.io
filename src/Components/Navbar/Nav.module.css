@@ -1,0 +1,51 @@
+.main {
+  display: flex;
+  height: 10vh;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #a9b2b5;
+  position: fixed;
+  width: 100%;
+  top: -1%;
+  z-index: 3;
+}
+.left {
+  flex: 1;
+  padding-left: 2%;
+  display: flex;
+  gap: 2 rem;
+}
+.name {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.right {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-around;
+}
+.list {
+  flex: 10;
+}
+.list > ul {
+  display: flex;
+  gap: 2rem;
+  margin-left: 1rem;
+  list-style-type: none;
+  margin-top: 10px;
+  /* color: aliceblue; */
+}
+.list > ul > li:hover {
+  cursor: pointer;
+  color: rgba(240, 209, 209, 0);
+  text-decoration: underline;
+
+  font-weight: 5000;
+}
+
+@media screen and (max-width: 480px) {
+  .list {
+    display: none;
+  }
+}

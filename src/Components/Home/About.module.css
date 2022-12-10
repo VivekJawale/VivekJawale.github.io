@@ -1,0 +1,51 @@
+.intro {
+  height: auto;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  margin-top: 4.1%;
+  margin-bottom: 30px;
+  padding-bottom: 5%;
+
+  /* background-image: url("https://images.template.net/wp-content/uploads/2016/11/16135851/Cartoon-Gif-Animated1.gif"); */
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 13%;
+  /* color: aqua; */
+}
+
+.hire {
+  display: flex;
+  margin-top: 20px;
+  gap: 2rem;
+  padding-left: 13%;
+}
+
+.icons {
+  margin-top: 25px;
+  display: flex;
+  gap: 1rem;
+}
+
+.icons > * {
+  transform: scale(0.7);
+}
+.icons > *:hover {
+  cursor: pointer;
+}
+
+.right {
+  width: 70%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.my_img {
+  width: 400px;
+  /* border-color: burlywood; */
+  border-radius: 15px;
+}

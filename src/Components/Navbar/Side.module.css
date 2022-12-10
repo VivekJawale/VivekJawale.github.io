@@ -1,0 +1,7 @@
+.text:hover {
+    cursor: pointer;
+    color: var(--red);
+    text-decoration: underline;
+    font-weight: 5000;
+    font-size: larger;
+}

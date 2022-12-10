@@ -1,0 +1,21 @@
+:root
+{
+  --blue:rgb(63, 63, 240);
+  --aqua: rgb(24, 245, 245);
+  --black:rgb(34, 33, 33);
+  --gray:rgb(143, 132, 132);
+  /* --orange: rgba(249, 249, 33, 0.001); */
+}
+.App{
+
+  overflow: hidden;
+}
+
+.color{
+  color: rgb(63, 63, 240);
+  color: rgb(24, 245, 245);
+  color: rgb(34, 33, 33);
+  color:rgb(143, 132, 132);
+  /* //color:rgb(249, 249, 33); */
+
+}

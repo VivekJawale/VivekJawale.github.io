@@ -11,16 +11,13 @@ import rect from "./images/rect.png";
 import reducs from "./images/reducs.jpg";
 import router from "./images/routerdom.png";
 import styles from "./Skills.module.css";
-import type from "./images/type.png";
 import git from "./tools/git.jpg";
 import github from "./tools/github.png";
-import heroku from "./tools/heroku.png";
 import json from "./tools/json.png";
 import netlify from "./tools/netlify.png";
 import npm from "./tools/npm.png";
 import postman from "./tools/postman.jpg";
 import vercel from "./tools/vercel.jpg";
-import dsa from "./tools/dsa.jpg";
 import Aos from "aos";
 import "aos/dist/aos.css";
 

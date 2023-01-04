@@ -84,7 +84,7 @@ const About = () => {
               </Button>
             </Link> */}
 
-            <a href={{/*Resume*/}} download style={{ textDecoration: "none" }}>
+            <a href={Resume} download style={{ textDecoration: "none" }}>
               <Button
                 _focus={{ outline: "none" }}
                 width={"130%"}

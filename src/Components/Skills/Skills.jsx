@@ -1,5 +1,5 @@
 import { Box, Image, SimpleGrid, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import chakra from "./images/chak.jpg";
 import css from "./images/css.jpg";
 import express from "./images/express.png";
@@ -47,11 +47,11 @@ const front = [
     icon: chakra,
     title: "CHAKRA UI",
   },
-  {
-    id: 6,
-    icon: "https://cdn.worldvectorlogo.com/logos/next-js.svg",
-    title: "NEXT JS",
-  },
+  // {
+  //   id: 6,
+  //   icon: "https://cdn.worldvectorlogo.com/logos/next-js.svg",
+  //   title: "NEXT JS",
+  // },
 ];
 
 const back = [
@@ -121,9 +121,7 @@ const tools = [
 ];
 
 const Skills = () => {
-  useEffect(() => {
-    Aos.init();
-  }, []);
+
   return (
     <>
       <SimpleGrid name="skills" mt={"7%"} gap="5%" columns={[1, 1, 2]}>
@@ -145,7 +143,7 @@ const Skills = () => {
             {front.map((f) => {
               return (
                 <>
-                  <Box data-aos="fade-up" data-aos-duration="1500">
+                  <Box >
                     <Box
                       p="9px"
                       w={"120px"}
@@ -157,7 +155,7 @@ const Skills = () => {
                       boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
                     >
                       <Image
-                        border="4px solid yellow"
+                        // border="4px solid yellow"
                         m={"auto"}
                         w={"100px"}
                         src={f.icon}
@@ -198,7 +196,7 @@ const Skills = () => {
             {back.map((f) => {
               return (
                 <>
-                  <Box data-aos="fade-up" data-aos-duration="1500">
+                  <Box >
                     <Box
                       p="6px"
                       w={"120px"}
@@ -210,7 +208,7 @@ const Skills = () => {
                       boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
                     >
                       <Image
-                        border="4px solid yellow"
+                        // border="4px solid yellow"
                         m={"auto"}
                         w={"100px"}
                         src={f.icon}
@@ -252,7 +250,7 @@ const Skills = () => {
           {tools.map((f) => {
             return (
               <>
-                <Box data-aos="fade-up" data-aos-duration="1500">
+                <Box >
                   <Box
                     p="9px"
                     w={"120px"}
@@ -264,7 +262,7 @@ const Skills = () => {
                     boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
                   >
                     <Image
-                      border="4px solid black"
+                      // border="4px solid black"
                       m={"auto"}
                       w={"100px"}
                       src={f.icon}

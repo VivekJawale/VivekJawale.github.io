@@ -41,7 +41,6 @@ const Navbar = () => {
             </Flex>
           </Box>
         </Box>
-
         <Box className={styles.right}>
           <Hide below="md">
             <Box className={styles.list}>
@@ -101,11 +100,7 @@ const Navbar = () => {
           </Hide>
           <Hide below="sm">
             <a
-              href={
-                {
-                  /*Resume*/
-                }
-              }
+              href={Resume}
               rel="noreferrer"
               target="_blank"
               style={{ textDecoration: "none" }}
@@ -132,8 +127,6 @@ const Navbar = () => {
             onClick={toggleColorMode}
             icon={isDark ? <FaSun /> : <FaMoon />}
           />
-
-          {/* ----------------------------------------------------------------------------------------- */}
 
           <Show below="md">
             <Sidebar />

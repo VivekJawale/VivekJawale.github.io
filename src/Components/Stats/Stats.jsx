@@ -1,19 +1,15 @@
 import { Box, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 import styles from "./Stats.module.css";
-import Aos from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
 import GitHubCalendar from "react-github-calendar";
 
 const Stats = () => {
-  useEffect(() => {
-    Aos.init();
-  }, []);
+
   return (
     <>
       <SimpleGrid columns={[2, 4, 4]} className={styles.stats}>
-        <Box data-aos="fade-up" data-aos-duration="1000">
+        <Box >
           <Box className={styles.achievement}>
             <Box className={styles.circle} style={{ color: "#facc15 " }}>
               1200+
@@ -29,7 +25,7 @@ const Stats = () => {
           </Box>
         </Box>
 
-        <Box data-aos="fade-up" data-aos-duration="1800">
+        <Box >
           <Box className={styles.achievement}>
             <Box className={styles.circle} style={{ color: "#facc15 " }}>
               50+
@@ -47,7 +43,7 @@ const Stats = () => {
           </Box>
         </Box>
 
-        <Box data-aos="fade-up" data-aos-duration="2200">
+        <Box >
           <Box className={styles.achievement}>
             <Box className={styles.circle} style={{ color: "#facc15 " }}>
               4
@@ -65,7 +61,7 @@ const Stats = () => {
           </Box>
         </Box>
 
-        <Box data-aos="fade-up" data-aos-duration="3000">
+        <Box >
           <Box className={styles.achievement}>
             <Box className={styles.circle} style={{ color: "#facc15 " }}>
               110+

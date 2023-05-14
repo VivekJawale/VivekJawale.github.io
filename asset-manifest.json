@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.cb2e9b54.js",
+    "static/media/Vivek-Jawale-Resume.pdf": "/static/media/Vivek-Jawale-Resume.322e2f07af6f7439413b.pdf",
+    "index.html": "/index.html",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.cb2e9b54.js.map": "/static/js/main.cb2e9b54.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.cb2e9b54.js"
+  ]
+}

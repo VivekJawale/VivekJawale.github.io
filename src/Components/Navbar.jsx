@@ -63,7 +63,7 @@ export default function Navbar(props) {
                             <a href="#home">Home</a>
                             <a href="#about">About</a>
                             <a href="#skills">Skills</a>
-                            <a href="#projects">Projects</a>
+//                             <a href="#projects">Projects</a>
                             <a href="#contact">Contacts</a>
                             <a
                                 href={Resume}
@@ -147,9 +147,9 @@ export default function Navbar(props) {
                             <a href="#skills" onClick={onClose}>
                                 Skills
                             </a>
-                            <a href="#projects" onClick={onClose}>
-                                Projects
-                            </a>
+//                             <a href="#projects" onClick={onClose}>
+//                                 Projects
+//                             </a>
                             <a href="#contact" onClick={onClose}>
                                 Contacts
                             </a>

@@ -71,13 +71,13 @@ import {
           >
             <Image
               src="https://github-readme-stats.vercel.app/api?username=vivekjawale&show_icons=true&locale=en"
-              alt="imukeshkaushal"
+              alt="vivek"
               w={"100%"}
               borderRadius={"20px"}
             />
             <Image
               src="https://github-readme-streak-stats.herokuapp.com/?user=vivekjawale&"
-              alt="imukeshkaushal"
+              alt="vivek"
               w={"100%"}
               borderRadius={"20px"}
             />

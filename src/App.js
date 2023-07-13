@@ -1,27 +1,28 @@
-import About from "./Components/About";
-import Contact from "./Components/Contact";
-import Education from "./Components/Education";
-import Footer from "./Components/Footer";
-import Github from "./Components/Github";
-import Home from "./Components/Home";
+import React, { lazy, Suspense } from "react";
 import Navbar from "./Components/Navbar";
-import Techstack from "./Components/Techstack";
+const Home = lazy(() => import("./Components/Home"));
+const About = lazy(() => import("./Components/About"));
+const Education = lazy(() => import("./Components/Education"));
+const Techstack = lazy(() => import("./Components/Techstack"));
+const Github = lazy(() => import("./Components/Github"));
+const Contact = lazy(() => import("./Components/Contact"));
+const Footer = lazy(() => import("./Components/Footer"));
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <Home />
-      <About />
-      <Education />
-      <Techstack />
-      <Github />
-      
-      <Contact />
-
-      <Footer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Home />
+        <About />
+        <Education />
+        <Techstack />
+        <Github />
+        <Contact />
+        <Footer />
+      </Suspense>
     </>
   );
-}
+};
 
 export default App;

@@ -4,7 +4,7 @@ export const profile = {
   name: "Vivek Jawale",
   role: "Software Engineer",
   tagline:
-    "I build real-time trading platforms with Golang and React — from NATS data pipelines to live PnL dashboards.",
+    "Full-stack engineer working with Golang and React, focused on fast, reliable products for fintech.",
   summary: [
     "I'm a software engineer with 3+ years of experience building algorithmic trading products. I currently work as an SDE-II at Motilal Oswal on StratX, a platform advisors and clients use to run automated trading strategies.",
     "I work across the stack: Golang microservices, gRPC and REST APIs on the backend, and fast, data-heavy React interfaces on the front. I like hard problems, picking up new tools quickly, and shipping with a team.",

@@ -1,22 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import Nav from "./components/Nav";
+import Soundtrack from "./components/Soundtrack";
 import { GitHub, LinkedIn, LeetCode, Mail, Phone, Pin, Download } from "./components/Icons";
 import { profile, experience, skills, education, certifications } from "./data";
 
-function Section({ id, label, title, children }) {
+// Fades children up once they scroll into view.
+function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...rest }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          el.classList.add("in");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <section id={id} className="border-t border-[var(--line)] py-20 sm:py-24">
-      <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">{label}</p>
-      <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>
-      <div className="mt-10">{children}</div>
+    <Tag ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>
+      {children}
+    </Tag>
+  );
+}
+
+// Splits a word into letters that slide up one after another.
+function Rise({ text, start = 0 }) {
+  return (
+    <span className="rise" aria-label={text}>
+      {[...text].map((ch, i) => (
+        <span key={i} aria-hidden style={{ animationDelay: `${start + i * 45}ms` }}>
+          {ch}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function Section({ id, num, label, title, children }) {
+  return (
+    <section id={id} className="relative py-24 sm:py-32">
+      <span
+        aria-hidden
+        className="ghost-num pointer-events-none absolute top-12 right-0 text-[8rem] sm:top-8 sm:text-[14rem]"
+      >
+        {num}
+      </span>
+      <Reveal className="relative">
+        <p className="flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-[var(--accent)] uppercase">
+          <span className="h-px w-10 bg-[var(--accent)]" /> {num} · {label}
+        </p>
+        <h2 className="display mt-3 text-6xl sm:text-8xl">{title}</h2>
+      </Reveal>
+      <div className="relative mt-14">{children}</div>
     </section>
   );
 }
 
 function Tag({ children }) {
   return (
-    <span className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 font-mono text-xs text-[var(--muted)]">
+    <span className="border border-[var(--line)] bg-black/50 px-2.5 py-1 font-mono text-xs text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">
       {children}
     </span>
   );
@@ -28,245 +77,296 @@ const socials = [
   ["LeetCode", profile.links.leetcode, LeetCode],
 ];
 
-export default function App() {
-  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+const tapeWords = [
+  "Golang",
+  "React",
+  "NATS",
+  "gRPC",
+  "Microservices",
+  "Real-time PnL",
+  "Redux Toolkit",
+  "MongoDB",
+  "Redis",
+  "Algo Trading",
+];
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-    try {
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    } catch {
-      /* storage unavailable */
-    }
-  }, [dark]);
+export default function App() {
+  const [first, last] = profile.name.toUpperCase().split(" ");
 
   return (
     <>
-      <Nav dark={dark} onToggleTheme={() => setDark((d) => !d)} />
+      <div className="grain" aria-hidden />
+      <Nav />
+      <Soundtrack />
 
-      <main id="top" className="mx-auto max-w-5xl px-4 sm:px-6">
-        {/* Hero */}
-        <section className="flex min-h-[90vh] flex-col justify-center pt-24 pb-16">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-60 motion-reduce:hidden" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" />
-              </span>
-              SDE-II at Motilal Oswal
-            </div>
-          </div>
+      {/* ---------- Hero ---------- */}
+      <header id="top" className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden">
+        <div className="searchlight" aria-hidden />
 
-          <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl">
-            Hi, I'm {profile.name.split(" ")[0]}.
-            <br />
-            <span className="text-[var(--muted)]">{profile.role}.</span>
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
-            {profile.tagline}
+        <div className="relative mx-auto w-full max-w-6xl px-4 pt-24 sm:px-6">
+          <p className="fade-in flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-[var(--accent)] uppercase">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-70 motion-reduce:hidden" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" />
+            </span>
+            SDE-II · Motilal Oswal · Mumbai
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={profile.resume}
-              download="Vivek-Jawale-Resume.pdf"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--text)] px-4 py-2.5 text-sm font-medium text-[var(--bg)] transition-opacity hover:opacity-85"
-            >
-              <Download width={16} height={16} /> Download resume
-            </a>
-            <a
-              href="#contact"
-              className="rounded-md border border-[var(--line)] px-4 py-2.5 text-sm font-medium transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            >
-              Get in touch
-            </a>
-            <div className="ml-1 flex items-center gap-1">
-              {socials.map(([name, href, Icon]) => (
-                <a
-                  key={name}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={name}
-                  className="rounded-md p-2.5 text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
-                >
-                  <Icon />
-                </a>
-              ))}
+          <h1 className="display mt-6 text-[clamp(4.5rem,min(16vw,22vh),13rem)]">
+            <Rise text={first} start={150} />
+            <br />
+            <span className="inline-block text-[var(--accent)] [filter:drop-shadow(0_0_28px_rgba(255,214,10,0.3))]">
+              <Rise text={last} start={420} />
+            </span>
+          </h1>
+
+          <div className="slash mt-6 w-48 sm:w-72" />
+
+          <div className="fade-in mt-8 grid gap-8 md:grid-cols-[1fr_auto] md:items-end" style={{ animationDelay: "0.9s" }}>
+            <div>
+              <p className="display text-3xl text-[var(--text)] sm:text-4xl">
+                {profile.role} <span className="text-[var(--accent)]">/</span>{" "}
+                <span className="text-outline">Go · React</span>
+              </p>
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-[var(--muted)]">{profile.tagline}</p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={profile.resume}
+                download="Vivek-Jawale-Resume.pdf"
+                className="btn-signal inline-flex items-center gap-2 px-5 py-3 text-sm font-bold tracking-wider uppercase"
+              >
+                <Download width={16} height={16} /> Resume
+              </a>
+              <a href="#contact" className="btn-ghost px-5 py-3 text-sm font-bold tracking-wider uppercase">
+                Contact
+              </a>
+              <div className="flex items-center">
+                {socials.map(([name, href, Icon]) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={name}
+                    className="p-2.5 text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+                  >
+                    <Icon />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* About */}
-        <Section id="about" label="01 · About" title="A bit about me">
-          <div className="grid gap-10 md:grid-cols-[1fr_16rem]">
-            <div className="space-y-4 text-lg leading-relaxed text-[var(--muted)]">
+      </header>
+
+      {/* ---------- Caution tape ---------- */}
+      <div className="relative z-10 -my-4 overflow-hidden py-6" aria-hidden>
+        <div className="tape -mx-4 py-3">
+          <div className="tape-track">
+            {[0, 1].map((k) => (
+              <div key={k} className="flex shrink-0">
+                {tapeWords.map((w) => (
+                  <span key={w + k} className="display flex items-center px-6 text-3xl">
+                    {w} <span className="ml-12 text-xl">✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <main className="mx-auto max-w-6xl px-4 sm:px-6">
+        {/* ---------- About ---------- */}
+        <Section id="about" num="01" label="About" title="Who I am">
+          <div className="grid gap-12 md:grid-cols-[1fr_20rem]">
+            <Reveal className="space-y-5 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
               {profile.summary.map((p) => (
                 <p key={p}>{p}</p>
               ))}
-            </div>
-            <dl className="grid h-fit grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--line)] bg-[var(--line)] md:grid-cols-1">
+            </Reveal>
+            <div className="grid h-fit grid-cols-2 gap-3">
               {[
-                ["3+ yrs", "Professional experience"],
-                ["2", "Trading platforms shipped"],
-                ["Go + React", "Primary stack"],
-                ["Mumbai", "Based in"],
-              ].map(([k, v]) => (
-                <div key={v} className="bg-[var(--surface)] p-4">
-                  <dt className="text-xl font-semibold">{k}</dt>
-                  <dd className="text-sm text-[var(--muted)]">{v}</dd>
-                </div>
+                ["3+", "Years experience"],
+                ["2", "Trading platforms"],
+                ["NATS", "Real-time pipelines"],
+                ["Go", "+ React stack"],
+              ].map(([k, v], i) => (
+                <Reveal key={v} delay={i * 90} className="bat-card hoverable edge p-5">
+                  <p className="display text-gold text-5xl">{k}</p>
+                  <p className="mt-1 text-xs tracking-wider text-[var(--muted)] uppercase">{v}</p>
+                </Reveal>
               ))}
-            </dl>
+            </div>
           </div>
         </Section>
 
-        {/* Experience */}
-        <Section id="experience" label="02 · Experience" title="Where I've worked">
-          <ol className="relative space-y-12 border-l border-[var(--line)] pl-6 sm:pl-8">
-            {experience.map((job) => (
-              <li key={job.company} className="relative">
-                <span className="absolute top-2 -left-[29px] h-2.5 w-2.5 rounded-full border-2 border-[var(--bg)] bg-[var(--accent)] sm:-left-[37px]" />
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="text-lg font-semibold">
-                    {job.role} <span className="text-[var(--muted)]">·</span>{" "}
-                    <span className="text-[var(--accent)]">{job.company}</span>
-                  </h3>
-                  <p className="font-mono text-xs text-[var(--muted)]">
+        {/* ---------- Experience ---------- */}
+        <Section id="experience" num="02" label="Experience" title="The missions">
+          <div className="space-y-6">
+            {experience.map((job, i) => (
+              <Reveal key={job.company} delay={i * 80} className="bat-card hoverable edge p-6 sm:p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-xs tracking-[0.2em] text-[var(--accent)] uppercase">{job.role}</p>
+                    <h3 className="display mt-2 text-4xl sm:text-5xl">{job.company}</h3>
+                  </div>
+                  <p className="border border-[var(--line)] px-3 py-1 font-mono text-xs text-[var(--muted)]">
                     {job.period} · {job.location}
                   </p>
                 </div>
+
                 {job.product && (
-                  <p className="mt-2 text-[var(--muted)]">
-                    <span className="font-medium text-[var(--text)]">{job.product}</span> — {job.blurb}
+                  <p className="mt-4 text-[var(--muted)]">
+                    <span className="font-semibold text-[var(--accent)]">{job.product}</span> — {job.blurb}
                   </p>
                 )}
-                <ul className="mt-4 space-y-2 text-[var(--muted)]">
+
+                <ul className="mt-5 grid gap-x-8 gap-y-2.5 text-[var(--muted)] md:grid-cols-2">
                   {job.points.map((pt) => (
                     <li key={pt} className="flex gap-3">
-                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-[var(--muted)]" />
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-[var(--accent)]" />
                       <span>{pt}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-4 flex flex-wrap gap-2">
+
+                <div className="mt-6 flex flex-wrap gap-2">
                   {job.stack.map((s) => (
                     <Tag key={s}>{s}</Tag>
                   ))}
                 </div>
-              </li>
+              </Reveal>
             ))}
-          </ol>
+          </div>
         </Section>
 
-        {/* Skills */}
-        <Section id="skills" label="03 · Skills" title="What I work with">
+        {/* ---------- Skills ---------- */}
+        <Section id="skills" num="03" label="Skills" title="The arsenal">
           <div className="grid gap-4 sm:grid-cols-2">
-            {skills.map(({ group, items }) => (
-              <div key={group} className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
-                <h3 className="text-sm font-semibold">{group}</h3>
-                <div className="mt-3 flex flex-wrap gap-2">
+            {skills.map(({ group, items }, i) => (
+              <Reveal key={group} delay={i * 90} className="bat-card hoverable edge p-6">
+                <div className="flex items-baseline justify-between">
+                  <h3 className="display text-3xl">{group}</h3>
+                  <span className="font-mono text-xs text-[var(--accent)]">{String(items.length).padStart(2, "0")}</span>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
                   {items.map((s) => (
                     <Tag key={s}>{s}</Tag>
                   ))}
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Section>
 
-        {/* GitHub */}
+        {/* ---------- GitHub (optional) ---------- */}
         {profile.showGithubCalendar && (
-        <Section id="github" label="GitHub" title="Contributions">
-          <div className="overflow-x-auto rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5 text-[var(--muted)]">
-            <GitHubCalendar
-              username={profile.githubUser}
-              colorScheme={dark ? "dark" : "light"}
-              theme={{
-                light: ["#e7e5e4", "#99f6e4", "#2dd4bf", "#0d9488", "#115e59"],
-                dark: ["#292524", "#134e4a", "#0f766e", "#14b8a6", "#5eead4"],
-              }}
-              blockSize={11}
-              fontSize={12}
-              errorMessage="Couldn't load the contribution calendar right now."
-            />
-          </div>
-          <a
-            href={profile.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--accent)]"
-          >
-            <GitHub width={16} height={16} /> github.com/{profile.githubUser} →
-          </a>
-        </Section>
+          <Section id="github" num="GH" label="GitHub" title="On GitHub">
+            <Reveal className="bat-card overflow-x-auto p-6 text-[var(--muted)]">
+              <GitHubCalendar
+                username={profile.githubUser}
+                colorScheme="dark"
+                theme={{ dark: ["#161618", "#5c4a00", "#a68500", "#e6b800", "#ffd60a"] }}
+                blockSize={11}
+                fontSize={12}
+                errorMessage="Couldn't load the contribution calendar right now."
+              />
+            </Reveal>
+          </Section>
         )}
 
-        {/* Education */}
-        <Section id="education" label="04 · Education" title="Education & certifications">
-          <div className="grid gap-10 md:grid-cols-[1fr_18rem]">
-            <ul className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
-              {education.map((e) => (
-                <li key={e.title} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-4">
+        {/* ---------- Education ---------- */}
+        <Section id="education" num="04" label="Education" title="Training">
+          <div className="grid gap-10 md:grid-cols-[1fr_20rem]">
+            <ul>
+              {education.map((e, i) => (
+                <Reveal
+                  as="li"
+                  key={e.title}
+                  delay={i * 70}
+                  className="group flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-[var(--line)] py-5 first:border-t"
+                >
                   <div>
-                    <p className="font-medium">{e.title}</p>
+                    <p className="text-lg font-semibold transition-colors group-hover:text-[var(--accent)]">{e.title}</p>
                     <p className="text-sm text-[var(--muted)]">{e.school}</p>
                   </div>
                   <p className="font-mono text-xs text-[var(--muted)]">{e.period}</p>
-                </li>
+                </Reveal>
               ))}
             </ul>
-            <div>
-              <h3 className="text-sm font-semibold">Certifications</h3>
-              <ul className="mt-3 space-y-2 text-sm text-[var(--muted)]">
+            <Reveal className="bat-card h-fit p-6">
+              <h3 className="display text-3xl text-[var(--accent)]">Certifications</h3>
+              <ul className="mt-4 space-y-3 text-sm text-[var(--muted)]">
                 {certifications.map((c) => (
-                  <li key={c}>{c}</li>
+                  <li key={c} className="flex gap-3">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-[var(--accent)]" />
+                    {c}
+                  </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </div>
         </Section>
 
-        {/* Contact */}
-        <Section id="contact" label="05 · Contact" title="Let's talk">
-          <p className="max-w-xl text-lg text-[var(--muted)]">
-            Open to conversations about backend, real-time systems and trading tech. The fastest way
-            to reach me is email.
-          </p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+        {/* ---------- Contact ---------- */}
+        <section id="contact" className="relative py-24 sm:py-32">
+          <Reveal>
+            <p className="flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-[var(--accent)] uppercase">
+              <span className="h-px w-10 bg-[var(--accent)]" /> 05 · Contact
+            </p>
+            <h2 className="display mt-4 text-[clamp(3.5rem,12vw,9rem)]">
+              Let's build
+              <br />
+              <span className="text-gold">something.</span>
+            </h2>
+            <a
+              href={`mailto:${profile.email}`}
+              className="sweep mt-8 inline-block pb-1 text-xl font-semibold break-all sm:text-3xl"
+            >
+              {profile.email} ↗
+            </a>
+          </Reveal>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-3">
             {[
               ["Email", profile.email, `mailto:${profile.email}`, Mail],
               ["Phone", profile.phone, `tel:${profile.phone.replace(/\s/g, "")}`, Phone],
               ["Location", profile.location, null, Pin],
-            ].map(([label, value, href, Icon]) => {
+            ].map(([label, value, href, Icon], i) => {
               const inner = (
                 <>
                   <Icon className="text-[var(--accent)]" />
-                  <p className="mt-3 text-xs text-[var(--muted)]">{label}</p>
-                  <p className="mt-0.5 font-medium break-all">{value}</p>
+                  <p className="mt-4 font-mono text-[10px] tracking-[0.25em] text-[var(--muted)] uppercase">{label}</p>
+                  <p className="mt-1 font-medium break-all">{value}</p>
                 </>
               );
-              const cls =
-                "block rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5 transition-colors";
-              return href ? (
-                <a key={label} href={href} className={`${cls} hover:border-[var(--accent)]`}>
-                  {inner}
-                </a>
-              ) : (
-                <div key={label} className={cls}>
-                  {inner}
-                </div>
+              return (
+                <Reveal key={label} delay={i * 90}>
+                  {href ? (
+                    <a href={href} className="bat-card edge block h-full p-6">
+                      {inner}
+                    </a>
+                  ) : (
+                    <div className="bat-card edge h-full p-6">{inner}</div>
+                  )}
+                </Reveal>
               );
             })}
           </div>
-        </Section>
+        </section>
       </main>
 
       <footer className="border-t border-[var(--line)]">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-sm text-[var(--muted)] sm:px-6">
-          <p>© {new Date().getFullYear()} {profile.name}</p>
-          <div className="flex gap-1">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8 sm:px-6">
+          <p className="display text-2xl">
+            Vivek <span className="text-[var(--accent)]">Jawale</span>
+          </p>
+          <p className="font-mono text-xs text-[var(--muted)]">© {new Date().getFullYear()} · Built in Mumbai</p>
+          <div className="flex">
             {socials.map(([name, href, Icon]) => (
               <a
                 key={name}
@@ -274,7 +374,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={name}
-                className="rounded-md p-2 hover:text-[var(--accent)]"
+                className="p-2 text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
               >
                 <Icon />
               </a>

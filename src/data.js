@@ -16,6 +16,9 @@ export const profile = {
   githubUser: "vivekjawale",
   // Set to true to show the GitHub contribution calendar (hidden while public activity is low).
   showGithubCalendar: false,
+  // Background music. Leave empty for the built-in generated ambient track,
+  // or put a royalty-free file in /public and set e.g. "/music.mp3".
+  music: "",
   links: {
     github: "https://github.com/vivekjawale",
     linkedin: "https://www.linkedin.com/in/vivek-jawale-30828a200/",

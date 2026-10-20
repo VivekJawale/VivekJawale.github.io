@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { profile } from "../data";
-import { Sun, Moon, Menu, Close } from "./Icons";
+import { Menu, Close } from "./Icons";
 
 const links = [
   ["About", "#about"],
@@ -11,25 +11,42 @@ const links = [
   ["Contact", "#contact"],
 ];
 
-export default function Nav({ dark, onToggleTheme }) {
+export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur">
-      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="font-mono text-sm font-medium tracking-tight">
-          vivek<span className="text-[var(--accent)]">.jawale</span>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        scrolled || open
+          ? "border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md"
+          : "border-transparent bg-transparent"
+      }`}
+    >
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <a href="#top" className="flex items-center gap-3" aria-label="Vivek Jawale, back to top">
+          <span className="display grid h-9 w-9 place-items-center bg-[var(--accent)] pt-0.5 text-2xl text-black">VJ</span>
+          <span className="display hidden text-xl tracking-wider sm:inline">
+            Vivek <span className="text-[var(--accent)]">Jawale</span>
+          </span>
         </a>
 
         <div className="flex items-center gap-1">
           <ul className="hidden items-center gap-1 md:flex">
-            {links.map(([label, href]) => (
+            {links.map(([label, href], i) => (
               <li key={href}>
                 <a
                   href={href}
-                  className="rounded-md px-3 py-2 text-sm text-[var(--muted)] transition-colors hover:text-[var(--text)]"
+                  className="px-3 py-2 font-mono text-xs tracking-widest text-[var(--muted)] uppercase transition-colors hover:text-[var(--accent)]"
                 >
-                  {label}
+                  <span className="text-[var(--accent)]">0{i + 1}.</span> {label}
                 </a>
               </li>
             ))}
@@ -39,24 +56,16 @@ export default function Nav({ dark, onToggleTheme }) {
             href={profile.resume}
             target="_blank"
             rel="noreferrer"
-            className="ml-2 hidden rounded-md border border-[var(--line)] px-3 py-1.5 text-sm font-medium transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] sm:inline-block"
+            className="btn-signal ml-3 hidden px-4 py-2 text-xs font-bold tracking-wider uppercase sm:inline-block"
           >
             Resume
           </a>
 
           <button
-            onClick={onToggleTheme}
-            aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-            className="ml-1 rounded-md p-2 text-[var(--muted)] transition-colors hover:text-[var(--text)]"
-          >
-            {dark ? <Sun /> : <Moon />}
-          </button>
-
-          <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu"
             aria-expanded={open}
-            className="rounded-md p-2 text-[var(--muted)] hover:text-[var(--text)] md:hidden"
+            className="ml-1 rounded-md p-2 text-[var(--muted)] hover:text-[var(--text)] md:hidden"
           >
             {open ? <Close /> : <Menu />}
           </button>
@@ -70,7 +79,7 @@ export default function Nav({ dark, onToggleTheme }) {
               <a
                 href={href}
                 onClick={() => setOpen(false)}
-                className="block py-2.5 text-[var(--muted)] hover:text-[var(--text)]"
+                className="display block py-2 text-3xl text-[var(--muted)] hover:text-[var(--accent)]"
               >
                 {label}
               </a>

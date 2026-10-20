@@ -1,53 +1,26 @@
 {
-  "name": "vivekjawale",
-  "homepage": "https://VivekJawale.github.io",
-  "version": "0.1.0",
+  "name": "vivekjawale-portfolio",
   "private": true,
-  "dependencies": {
-    "@chakra-ui/icons": "^2.0.13",
-    "@chakra-ui/react": "^2.4.3",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "framer-motion": "^7.6.19",
-    "github-calendar": "^2.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-github-calendar": "^3.4.0",
-    "react-icons": "^4.7.1",
-    "react-router-dom": "^6.6.0",
-    "react-scripts": "5.0.1",
-    "react-scroll": "^1.8.8",
-    "web-vitals": "^2.1.4"
-  },
+  "version": "2.0.0",
+  "type": "module",
+  "homepage": "https://vivekjawale.github.io",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "set GENERATE_SOURCEMAP=false && react-scripts build", 
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "react-scripts start"
-  }
-  ,
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "deploy": "gh-pages -d dist"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-github-calendar": "^5.0.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "gh-pages": "^6.3.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
   }
 }
